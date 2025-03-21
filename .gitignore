@@ -6,4 +6,4 @@ venv/
 .env
 *.log
 *.sqlite3
-*/migrations
+*migrations
