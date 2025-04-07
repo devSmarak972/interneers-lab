@@ -1,6 +1,6 @@
-from .models import Product, ProductCategory
+from product_app.models import Product, ProductCategory
 from datetime import datetime
-from .models import Product, ProductCategory  # Assuming models are defined properly
+from product_app.models import Product, ProductCategory  # Assuming models are defined properly
 from bson import ObjectId
 from mongoengine.queryset.visitor import Q
 
@@ -151,4 +151,10 @@ class ProductCategoryRepository:
         else:
             print(f"Found existing category: {title}")
             return category,False
+    @staticmethod
+    def get_by_title(title):
+        """
+        Fetch a ProductCategory by its title.
+        """
+        return ProductCategory.objects(title=title).first()
 

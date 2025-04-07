@@ -23,6 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('hello/', hello_world),
     path('hello/', hello_name),
-    path('product/', include('product_app.urls')),  # Include URLs from another app
+    path('product/api/', include('product_app.urls')),  # Include URLs from another app
 
 ]
