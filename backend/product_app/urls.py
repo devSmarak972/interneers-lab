@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from django.http import HttpResponse
-from .views import ProductListCreateView,ProductDetailView, ProductCategoryListCreateView, ProductByCategoryView, ProductCategoryListCreateView, ProductManageByCategoryView, fetch_products_api
+from .views import ProductListCreateView,ProductDetailView, ProductCategoryListCreateView, ProductByCategoryView, ProductCategoryListCreateView, ProductManageByCategoryView, fetch_products_api,product_list
 def hello_world(request):
     return HttpResponse("Hello, world! This is our interneers-lab Django server. THis has been edited")
 
@@ -21,11 +21,11 @@ def hello_name(request):
 
 
 urlpatterns = [
-    path('', ProductListCreateView.as_view(), name='product-list-create'),
+    path('', product_list, name='product_list'),
     path('d/<str:product_id>/', ProductDetailView.as_view(), name='product-detail'),
     path('cat/', ProductCategoryListCreateView.as_view(), name='category-list-create'),
     path('cat/<str:category_id>', ProductByCategoryView.as_view(), name='products-by-category'),
     path('cat/<str:category_id>/p/<str:product_id>', ProductManageByCategoryView.as_view(), name='products-by-category'),
     path('filter/', fetch_products_api, name='fetch'),
-
+    path('list/', ProductListCreateView.as_view(), name='product_list_view'),
 ]

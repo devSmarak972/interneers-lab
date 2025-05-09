@@ -143,3 +143,9 @@ connect(
     port=MONGO_DB_PORT,
     authentication_source='admin'
 )
+
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'product_app' / 'static',
+]

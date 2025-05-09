@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -8,6 +8,8 @@ from .services import ProductService, ProductCategoryService
 from .repository import ProductRepository, ProductCategoryRepository
 from rest_framework.generics import ListAPIView
 from rest_framework.decorators import api_view
+from django.http import JsonResponse
+from .models import Product
 
 # Instantiate repositories and services
 product_repository = ProductRepository()
@@ -142,3 +144,19 @@ def fetch_products_api(request):
     filters = serializer.validated_data
     products = product_service.fetch_products(filters)
     return Response(ProductSerializer(products, many=True).data, status=200)
+
+def product_list(request):
+    return render(request, 'products/list.html')
+
+def get_products(request):
+    products = Product.objects.all()
+    products_data = [{
+        'id': str(product.id),
+        'name': product.name,
+        'description': product.description,
+        'price': product.price,
+        'brand': product.brand,
+        'quantity': product.quantity,
+        'category': str(product.category.id)
+    } for product in products]
+    return JsonResponse(products_data, safe=False)

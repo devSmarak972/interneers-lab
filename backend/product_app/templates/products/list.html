@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products List</title>
+    <link rel="stylesheet" href="/static/css/products.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Our Products</h1>
+        
+        <!-- Add Product Button -->
+        <div class="add-product-section">
+            <button id="addNewProductBtn" class="add-btn">Add New Product</button>
+        </div>
+
+        <div class="filters">
+            <select id="categoryFilter">
+                <option value="">All Categories</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="Search products...">
+        </div>
+        <div id="products-grid" class="products-grid">
+            <!-- Products will be dynamically inserted here -->
+        </div>
+    </div>
+    <script src="/static/js/products.js"></script>
+</body>
+</html>
