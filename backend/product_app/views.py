@@ -28,7 +28,15 @@ class ProductListCreateView(ListAPIView):
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
             try:
+                category_data = request.data.get('category')
+                if category_data:
+                    category = category_service.get_category(category_data.get('id'))
+                    if not category:
+                        category = category_service.create_category(category_data)
+                
                 product = product_service.create_product(serializer.validated_data)
+                if category:
+                    product = product_service.add_product_to_category(product.id, category.id)
                 return Response(ProductSerializer(product).data, status=status.HTTP_201_CREATED)
             except Exception as e:
                 return Response({"error": "Failed to create product", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -47,6 +55,25 @@ class ProductDetailView(APIView):
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
             try:
+                category_data = request.data.get('category')
+                
+                # If category data is provided
+                if category_data:
+                    # Check if category exists
+                    print(category_data,"in edit product")
+                    category = category_service.get_category(category_data.get('id'))
+                    # If category doesn't exist, create it
+                    if not category:
+                        category = category_service.create_category({
+                            'title': category_data.get('title', category_data.get('name')),
+                            'description': category_data.get('description', '')
+                        })
+                    
+                    # Add product to category
+                    product = product_service.add_product_to_category(product_id, category.id)
+                    if not product:
+                        return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+                
                 product = product_service.update_product(product_id, serializer.validated_data)
                 if product:
                     return Response(ProductSerializer(product).data, status=status.HTTP_200_OK)

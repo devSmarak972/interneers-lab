@@ -91,7 +91,6 @@ class ProductCategoryService:
     def create_or_update_category(self, category_data):
         """Create a new category or update an existing one."""
         category_id = category_data.get("id")
-
         if category_id:
             return self.category_repository.update_category(category_id, category_data)
         return self.category_repository.create(category_data)
